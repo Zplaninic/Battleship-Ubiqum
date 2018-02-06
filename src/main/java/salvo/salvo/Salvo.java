@@ -53,7 +53,7 @@ public class Salvo {
     public void setSalvoLocation(List<String> salvoLocation) {
         this.salvoLocation = salvoLocation;
     }
-
+//    @JsonIgnore
     public GamePlayer getGamePlayer() {
         return gamePlayer;
     }

@@ -5,9 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -49,6 +47,7 @@ public class SalvoController {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id", gamePlayer.getId());
         dto.put("player",makeNewJsonPlayer(gamePlayer.getCompetitor()));
+//        dto.put("salvoes", gamePlayer.getSalvos().stream().map(salvo -> makeJsonSalvo(salvo)).collect(Collectors.toList()));
         return dto;
     }
 
@@ -56,6 +55,13 @@ public class SalvoController {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("playerId", player.getId());
         dto.put("playerName", player.getUserName());
+        return dto;
+    }
+
+    private Map<String, Object> makeJsonShip(Ship ship) {
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("type", ship.getShipType());
+        dto.put("locations", ship.getShipLocation());
         return dto;
     }
 
@@ -69,24 +75,20 @@ public class SalvoController {
         dto.put("player", gamePlayer.getCompetitor());
         dto.put("gameplayers", game.getGamePlayers().stream().map(gameplayer -> makeNewJsonGamePlayer(gameplayer)).collect(Collectors.toList()));
         dto.put("ship", gamePlayer.getShips().stream().map(ship -> makeJsonShip(ship)).collect(Collectors.toList()));
-        dto.put("salvoes", gamePlayer.getSalvos().stream().map(salvo -> makeJsonSalvo(salvo)).collect(Collectors.toList()));
-        return dto;
-    }
-//
-
-    private Map<String, Object> makeJsonShip(Ship ship) {
-        Map<String, Object> dto = new LinkedHashMap<String, Object>();
-        dto.put("type", ship.getShipType());
-        dto.put("locations", ship.getShipLocation());
+        dto.put("salvoes", game.getGamePlayers().stream().map(gameplayer ->  makeGamePlayersSalvo(gameplayer)).collect(Collectors.toList()));
         return dto;
     }
 
     private Map<String, Object> makeJsonSalvo(Salvo salvo) {
         Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("player_id", salvo.getGamePlayer().getId());
         dto.put("turn", salvo.getTurn());
         dto.put("locations", salvo.getSalvoLocation());
         return dto;
     }
 
+    private List<Object> makeGamePlayersSalvo(GamePlayer gamePlayer) {
+        return gamePlayer.getSalvos().stream().map(salvo -> makeJsonSalvo(salvo)).collect(Collectors.toList());
+    }
 
 }

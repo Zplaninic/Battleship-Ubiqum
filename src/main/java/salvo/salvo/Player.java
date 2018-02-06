@@ -36,10 +36,10 @@ public class Player {
         this.userName = userName;
     }
 
-    @JsonIgnore
-    public List<Game> getGames() {
-        return gamePlayers.stream().map(gp -> gp.getGame()).collect(Collectors.toList());
-    }
+//    @JsonIgnore
+//    public List<Game> getGames() {
+//        return gamePlayers.stream().map(gp -> gp.getGame()).collect(Collectors.toList());
+//    }
 
     public void addGamePlayer(GamePlayer gamePlayer) {
         gamePlayer.setCompetitor(this);
