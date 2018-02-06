@@ -1,0 +1,63 @@
+.grid {
+    margin:0;
+    padding:0;
+    width: 35px;
+    height: 35px;
+    border-style:solid;
+    border-width: 1px;
+    /*border-left: 0px;*/
+    /*border-bottom: 0px;*/
+    display:inline-block;
+    text-align: center;
+    vertical-align: bottom;
+}
+#row0 .border, #row1 .border, #row2 .border, #row3 .border, #row4 .border, #row5 .border, #row6 .border, #row7 .border, #row8 .border, #row9 .border {
+    border-bottom: 1px;
+}
+
+
+
+/*#row1 div:first-child {*/
+    /*border-top: 1px;*/
+    /*border-bottom: 0px;*/
+/*}*/
+/*#row2 div:first-child {*/
+    /*border-top: 02px;*/
+    /*border-bottom: 0px;*/
+/*}*/
+/*#row3 div:first-child {*/
+    /*border-top: 0px;*/
+    /*border-bottom: 0px;*/
+/*}*/
+/*#row4 div:first-child {*/
+    /*border-top: 0px;*/
+    /*border-bottom: 0px;*/
+/*}*/
+/*#row5 div:first-child {*/
+    /*border-top: 0px;*/
+    /*border-bottom: 0px;*/
+/*}*/
+/*#row6 div:first-child {*/
+    /*border-top: 0px;*/
+    /*border-bottom: 0px;*/
+/*}*/
+/*#row7 div:first-child {*/
+    /*border-top: 0px;*/
+    /*border-bottom: 0px;*/
+/*}*/
+/*#row8 div:first-child {*/
+    /*border-top: 0px;*/
+    /*border-bottom: 0px;*/
+/*}*/
+/*#row9 div:first-child {*/
+    /*border-top: 0px;*/
+    /*border-bottom: 0px;*/
+/*}*/
+/*#row10 div:first-child {*/
+    /*border-top: 0px;*/
+    /*border-bottom: 0px;*/
+/*}*/
+
+
+
+
