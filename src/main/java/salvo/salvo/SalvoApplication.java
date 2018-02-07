@@ -23,7 +23,8 @@ public class SalvoApplication {
                                       GameRepository gameRepository,
 									  GamePlayerRepository gamePlayerRepository,
                                       ShipRepository shipRepository,
-                                      SalvoRepository salvoRepository) {
+                                      SalvoRepository salvoRepository,
+									  ScoreRepository scoreRepository) {
 	    return (args) -> {
 
 			Player jBauer = new Player("j.bauer@ctu.gov");
@@ -204,10 +205,31 @@ public class SalvoApplication {
             Salvo salvo322 = new Salvo(2, Arrays.asList("E1", "F2" , "G3"), thirdMatch2);
             salvoRepository.save(salvo322);
 
+//            --Task 5.1 Put score into database
+            Date firstFinish = Date.from(firstGame.getDate().toInstant().plusSeconds(1800));
+			Score score11 = new Score(firstGame, jBauer, 1.0, firstFinish);
+			scoreRepository.save(score11);
+			Score score12 = new Score(firstGame, cObrian, 0.0, firstFinish);
+			scoreRepository.save(score12);
 
+			Date secondFinish =  Date.from(secondGame.getDate().toInstant().plusSeconds(1800));
+			Score score21 = new Score(secondGame, jBauer, 0.5, secondFinish);
+			scoreRepository.save(score21);
+			Score score22 = new Score(secondGame, cObrian, 0.5, secondFinish);
+			scoreRepository.save(score22);
 
+			Date thirdFinish =  Date.from(thirdGame.getDate().toInstant().plusSeconds(1800));
+			Score score31 = new Score(thirdGame, cObrian, 1.0, thirdFinish);
+			scoreRepository.save(score31);
+			Score score32 = new Score(thirdGame, tAlmeida, 0.0, thirdFinish);
+			scoreRepository.save(score32);
 
-        };
+			Date forthFinish =  Date.from(forthGame.getDate().toInstant().plusSeconds(1800));
+			Score score41 = new Score(forthGame, cObrian, 0.5, forthFinish);
+			scoreRepository.save(score41);
+			Score score42 = new Score(forthGame, jBauer, 0.5, forthFinish);
+			scoreRepository.save(score42);
+		};
 
     }
 

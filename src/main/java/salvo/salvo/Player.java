@@ -18,6 +18,9 @@ public class Player {
     @OneToMany(mappedBy="competitor", fetch = FetchType.EAGER)
     Set<GamePlayer> gamePlayers;
 
+    @OneToMany(mappedBy="player", fetch = FetchType.EAGER)
+    Set<Score> score;
+
     public Player() {}
 
     public Long getId() {
