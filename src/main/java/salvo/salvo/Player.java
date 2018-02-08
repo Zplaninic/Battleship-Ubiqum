@@ -19,7 +19,7 @@ public class Player {
     Set<GamePlayer> gamePlayers;
 
     @OneToMany(mappedBy="player", fetch = FetchType.EAGER)
-    Set<Score> score;
+    Set<Score> scores;
 
     public Player() {}
 
@@ -47,6 +47,15 @@ public class Player {
     public void addGamePlayer(GamePlayer gamePlayer) {
         gamePlayer.setCompetitor(this);
         gamePlayers.add(gamePlayer);
+    }
+
+    public void setScore(Score score) {
+        score.setPlayer(this);
+        scores.add(score);
+    }
+
+    public Set<Score> getScores() {
+        return scores;
     }
 
     public String toString() {

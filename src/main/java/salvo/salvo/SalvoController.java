@@ -55,6 +55,7 @@ public class SalvoController {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("playerId", player.getId());
         dto.put("playerName", player.getUserName());
+        dto.put("scores", player.getScores().stream().map(score -> makeJsonScore(score)).collect(Collectors.toList()));
         return dto;
     }
 
@@ -90,5 +91,12 @@ public class SalvoController {
     private List<Object> makeGamePlayersSalvo(GamePlayer gamePlayer) {
         return gamePlayer.getSalvos().stream().map(salvo -> makeJsonSalvo(salvo)).collect(Collectors.toList());
     }
+
+    private Map<String, Object> makeJsonScore(Score score) {
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("score", score.getScore());
+        return dto;
+    }
+
 
 }
