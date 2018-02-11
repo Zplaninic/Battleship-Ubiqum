@@ -4,8 +4,8 @@ function rowCreate(divId, rowId) {
         $(divId).append("<tr id=" + rowId + rows + " ></tr>");
     }
 }
-rowCreate("#gridShipTable", "rowShip");
-rowCreate("#gridSalvoTable", "rowSalvo");
+// rowCreate("#gridShipTable", "rowShip");
+// rowCreate("#gridSalvoTable", "rowSalvo");
 function columnCreate(rowId) {
     var letters = ["0", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
     var numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
@@ -25,8 +25,8 @@ function columnCreate(rowId) {
         }
     }
 }
-columnCreate("#rowShip");
-columnCreate("#rowSalvo");
+// columnCreate("#rowShip");
+// columnCreate("#rowSalvo");
 
 // id=" + letters[j] + rows + "
 // id=" + letters[i] + rows + "
@@ -45,7 +45,7 @@ function paramObj(search) {
     return key_url;
 
 }
-paramObj(url);
+// paramObj(url);
 
 function loadJsonShipData(param) {
     $.getJSON("http://localhost:8080/api/game_view/" + param, function(data) {
@@ -79,7 +79,7 @@ function loadJsonShipData(param) {
     });
 }
 
-loadJsonShipData(key_url);
+// loadJsonShipData(key_url);
 
 function loadJsonSalvoData(param) {
     $.getJSON("http://localhost:8080/api/game_view/" + param, function(data) {
@@ -106,6 +106,5 @@ function loadJsonSalvoData(param) {
 
 }
 
-loadJsonSalvoData(key_url);
-
+// loadJsonSalvoData(key_url);
 

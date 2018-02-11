@@ -39,7 +39,7 @@ public class SalvoController {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id", game.getId());
         dto.put("created", game.getDate());
-        dto.put("gameplayers", game.getGamePlayers().stream().map(gamePlayer ->  makeNewJsonGamePlayer(gamePlayer)).collect(Collectors.toList()));
+        dto.put("gameplayers", game.getGamePlayers().stream().map(gamePlayer ->  makeJsonGamePlayerScore(gamePlayer)).collect(Collectors.toList()));
         return dto;
     }
 
@@ -47,7 +47,15 @@ public class SalvoController {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id", gamePlayer.getId());
         dto.put("player",makeNewJsonPlayer(gamePlayer.getCompetitor()));
-//        dto.put("salvoes", gamePlayer.getSalvos().stream().map(salvo -> makeJsonSalvo(salvo)).collect(Collectors.toList()));
+        return dto;
+    }
+
+    private Map<String, Object> makeJsonGamePlayerScore(GamePlayer gamePlayer) {
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("id", gamePlayer.getId());
+        dto.put("player",makeNewJsonPlayer(gamePlayer.getCompetitor()));
+        Score score = gamePlayer.getScore();
+        dto.put("score", score == null ? "No score" : score.getScore());
         return dto;
     }
 
@@ -55,7 +63,7 @@ public class SalvoController {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("playerId", player.getId());
         dto.put("playerName", player.getUserName());
-        dto.put("scores", player.getScores().stream().map(score -> makeJsonScore(score)).collect(Collectors.toList()));
+//        dto.put("scores", player.getScores().stream().map(score -> makeJsonScore(score)).collect(Collectors.toList()));
         return dto;
     }
 
@@ -92,11 +100,7 @@ public class SalvoController {
         return gamePlayer.getSalvos().stream().map(salvo -> makeJsonSalvo(salvo)).collect(Collectors.toList());
     }
 
-    private Map<String, Object> makeJsonScore(Score score) {
-        Map<String, Object> dto = new LinkedHashMap<>();
-        dto.put("score", score.getScore());
-        return dto;
-    }
+
 
 
 }

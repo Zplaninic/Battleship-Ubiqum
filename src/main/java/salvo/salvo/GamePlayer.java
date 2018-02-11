@@ -1,5 +1,7 @@
 package salvo.salvo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -80,6 +82,12 @@ public class GamePlayer {
 
     public void setSalvos(Set<Salvo> salvos) {
         this.salvos = salvos;
+    }
+
+
+//    tu je problem
+    public Score getScore() {
+        return competitor.getScore(game);
     }
 
 }

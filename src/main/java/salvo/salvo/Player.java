@@ -61,4 +61,9 @@ public class Player {
     public String toString() {
         return "User: " + userName;
     }
+
+//    tu je problem
+    public Score getScore(Game game) {
+        return scores.stream().filter(score -> score.getGame().getId()==game.getId()).findFirst().orElse(null);
+    }
 }

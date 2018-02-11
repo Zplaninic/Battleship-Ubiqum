@@ -51,7 +51,7 @@ public class Score {
     }
 
     public Game getGame() {
-        return this.game;
+        return game;
     }
 
     public void setPlayer(Player player) {
