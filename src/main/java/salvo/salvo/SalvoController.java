@@ -81,7 +81,7 @@ public class SalvoController {
         Game game = gamePlayer.getGame();
         dto.put("id", gamePlayer.getId());
         dto.put("created", gamePlayer.getDate());
-        dto.put("player", gamePlayer.getCompetitor());
+        dto.put("player", makeNewJsonPlayer(gamePlayer.getCompetitor()));
         dto.put("gameplayers", game.getGamePlayers().stream().map(gameplayer -> makeNewJsonGamePlayer(gameplayer)).collect(Collectors.toList()));
         dto.put("ship", gamePlayer.getShips().stream().map(ship -> makeJsonShip(ship)).collect(Collectors.toList()));
         dto.put("salvoes", game.getGamePlayers().stream().map(gameplayer ->  makeGamePlayersSalvo(gameplayer)).collect(Collectors.toList()));
