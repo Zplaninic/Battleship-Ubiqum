@@ -1,10 +1,14 @@
 package salvo.salvo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.web.bind.annotation.*;
 
+import javax.swing.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,20 +24,37 @@ public class SalvoController {
 
     @Autowired GamePlayerRepository gamePlayerRepository;
 
+    @Autowired PlayerRepository playerRepository;
+
     @RequestMapping("/games")
-    public List<Object> getAllGames() {
+    public Map<String, Object> returnGames(Authentication authentication) {
+        Map<String, Object> dto = new LinkedHashMap<>();
+        if(!isGuest(authentication)) {
+            dto.put("player", makeNewJsonPlayer(playerRepository.findByUserName(authentication.getName()).get(0)));
+        }
+        dto.put("games", getAllGames());
+        return dto;
+    }
+    private List<Object> getAllGames() {
         return gameRepository
                 .findAll()
                 .stream()
                 .map(game -> makeNewJsonGame(game))
                 .collect(Collectors.toList());
+
     }
 
+    private boolean isGuest(Authentication authentication) {
+        return authentication == null || authentication instanceof AnonymousAuthenticationToken;
+    }
+
+
 //    Take just IDs at /api/games
-//    public List<Long> getId() {
+//    public List<Long> getId()
 //        return repository.findAll().stream().map(Game -> Game.getId()).collect(Collectors.toList());
 //        //                                       Game::getId()
 //    }
+
 
     private Map<String, Object> makeNewJsonGame(Game game) {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
@@ -102,5 +123,33 @@ public class SalvoController {
 
 
 
+//    private List<Player> makeAuthenticationPlayer (Authentication authentication) {
+//        return playerRepository.findByUserName(authentication.getName());
+//    }
+
+    @RequestMapping(path = "/players", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> createUser(@RequestParam String username, @RequestParam String password) {
+        List<Player> players = playerRepository.findByUserName(username);
+
+        if (username.isEmpty()) {
+            return new ResponseEntity<>(makeMap("error", "No name"), HttpStatus.FORBIDDEN);
+        }
+
+        if (!players.isEmpty()) {
+            return new ResponseEntity<>(makeMap("error", "Name in use"), HttpStatus.FORBIDDEN);
+        }
+
+        playerRepository.save(new Player(username, password));
+
+        return new ResponseEntity<>(makeMap("userName", username), HttpStatus.CREATED);
+
+    }
+
+    private Map<String, Object> makeMap(String key, Object value) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(key, value);
+        map.put(key, value);
+        return map;
+    }
 
 }

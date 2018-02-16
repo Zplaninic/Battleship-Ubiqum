@@ -14,6 +14,8 @@ public class Player {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String userName;
+    private String password;
+
 
     @OneToMany(mappedBy="competitor", fetch = FetchType.EAGER)
     Set<GamePlayer> gamePlayers;
@@ -27,8 +29,10 @@ public class Player {
         return id;
     }
 
-    public Player(String email) {
-        userName = email;
+    public Player(String email, String password) {
+        this.userName = email;
+        this.password = password;
+
     }
 
     public String getUserName() {
@@ -39,7 +43,15 @@ public class Player {
         this.userName = userName;
     }
 
-//    @JsonIgnore
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    //    @JsonIgnore
 //    public List<Game> getGames() {
 //        return gamePlayers.stream().map(gp -> gp.getGame()).collect(Collectors.toList());
 //    }

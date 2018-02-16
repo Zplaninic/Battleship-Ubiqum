@@ -66,7 +66,9 @@ function loadJsonShipData(param) {
 
 
         gameplayers.map(function(x){
-                 if(x.player.playerId == dataplayer.id) {
+
+            console.log(dataplayer)
+                 if(x.player["playerId"] == dataplayer.playerId) {
                     playerMain = x.player.playerName + "(you)"
                     return playerMain;
                 }else {
@@ -107,4 +109,18 @@ function loadJsonSalvoData(param) {
 }
 
 loadJsonSalvoData(key_url);
+
+function logout() {
+    $("#logoutButton").click(function(event) {
+        event.preventDefault();
+        $.post("/api/logout")
+            .done(function () {
+                window.location.replace("http://localhost:8080/web/games.html");
+                console.log("Logged out");
+            })
+            .fail();
+    });
+}
+
+logout();
 

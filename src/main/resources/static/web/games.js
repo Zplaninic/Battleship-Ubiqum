@@ -1,12 +1,12 @@
 $(function() {
-
     function getColumnsHtml(row) {
         return row.gameplayers.map(function(gameplayer) {
             return gameplayer.player.playerName;
         }).join(" ");
     }
-    
+
     function getRowsHTMl(data) {
+        var data = data.games;
         return data.map(function(row, i) {
            return "<li>" + data[i].id + " " + data[i].created + " " + getColumnsHtml(row) + "</li>"
         }).join(" ");
@@ -37,6 +37,7 @@ function makeLeaderBoard() {
 
 
     $.getJSON("http://localhost:8080/api/games", function(data) {
+        var data = data.games;
         data.map(function(x) {
             x.gameplayers.map(function(y) {
                 competitor = y.player.playerName;
@@ -96,3 +97,102 @@ function makeLeaderBoard() {
     });
 }
 makeLeaderBoard();
+
+$(function() {
+
+    function showOutput(text) {
+        $("#playerName").text(text);
+    }
+
+    function login() {
+        $("#loginButton").click(function(event) {
+            event.preventDefault();
+            var form = event.target.form;
+            loginPost(form);
+        });
+    }
+
+    function loginPost(form) {
+        $.post("/api/login",
+            { username: form["username"].value,
+                password: form["password"].value })
+            .done(function( ) {
+                console.log("Logged in!")
+                $("#login-form").hide();
+                loadUser();
+            })
+            .fail(function() {
+                showOutput("You have to sign up first!");
+            });
+
+    }
+
+    function loadUser() {
+        $.getJSON("http://localhost:8080/api/games", function(data) {
+            console.log(data);
+           showOutput("Logged in as: " + data.player.playerName);
+        });
+    }
+
+    login();
+
+    function loginReload() {
+        $.getJSON("http://localhost:8080/api/games", function(data) {
+            if(data.player != null) {
+                showOutput("Logged in as: " + data.player.playerName);
+            }
+
+        });
+    }
+
+    loginReload();
+
+
+    function logout() {
+        $("#logoutButton").click(function(event) {
+            event.preventDefault();
+            $.post("/api/logout")
+                .done(function () {
+                    console.log("Logged out")
+                    showOutput("");
+                    $("#login-form").show();
+                })
+                .fail();
+        });
+    }
+
+    logout();
+    // $("#logoutButton").on('click', logout());
+
+    function signUp() {
+        $("#signupButton").click(function(event) {
+            event.preventDefault();
+            var form = event.target.form;
+            $.post("/api/players",
+                { username: form["username"].value,
+                    password: form["password"].value })
+                .done(function( ) {
+                    console.log("You are signed up" )
+                    loginPost(form);
+                    // loadNewPlayer();
+                })
+                .fail(function( jqXHR, textStatus ) {
+                    showOutput("You are already signed up!");
+                });
+        });
+    }
+
+    function loadNewPlayer() {
+        $.getJSON("http://localhost:8080/rest/players", function(data) {
+            console.log(data);
+        });
+    }
+
+    signUp();
+    // $("#signupButton").on('click', signUp());
+
+    // loadNewPlayer();
+
+
+
+});
