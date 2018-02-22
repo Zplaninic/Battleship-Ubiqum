@@ -269,7 +269,7 @@ class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 	UserDetailsService userDetailsService() {
 		return new UserDetailsService() {
 			@Override
-			public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+				public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 				List<Player> players = playerRepository.findByUserName(username);
 				if (!players.isEmpty()) {
 					Player player = players.get(0);
@@ -295,7 +295,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.authorizeRequests()
 				.antMatchers("/web/games.html").permitAll()
-				.antMatchers("api/games").permitAll()
+				.antMatchers("api/games/**").permitAll()
 				.antMatchers("/api/game_view/**").hasAuthority("USER")
 				.antMatchers("/web/game.html*").hasAuthority("USER")
 				.antMatchers("/rest/**").hasAuthority("USER")

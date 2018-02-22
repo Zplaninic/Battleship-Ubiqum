@@ -2,14 +2,19 @@ $(function() {
     function getColumnsHtml(row) {
         return row.gameplayers.map(function(gameplayer) {
             return gameplayer.player.playerName;
-        }).join(" ");
+        }).join(" vs ");
     }
 
+
     function getRowsHTMl(data) {
+        // var player = data.player;
         var data = data.games;
+        // data.forEach(function(element) {
+        //     console.log(element);
+        // });
         return data.map(function(row, i) {
-           return "<li>" + data[i].id + " " + data[i].created + " " + getColumnsHtml(row) + "</li>"
-        }).join(" ");
+           return "<li id=" + "dataAttr" + i + ">" + data[i].created + " " + getColumnsHtml(row) + "</li>"
+        }).join("");
     }
 
     function renderList(data) {
@@ -27,7 +32,6 @@ $(function() {
                 showOutput("Failed: " + textStatus);
             });
     }
-
     loadData();
 });
 
@@ -84,14 +88,12 @@ function makeLeaderBoard() {
         var i = 0;
         for (key in players) {
             players[key].map(function(z) {
-                console.log(Object.keys(z));
                 i = i + 1;
-                console.log(i)
-                        $('#row' +i).append("<td>" + key + "</td>");
-                        $('#row' + i).append("<td>" + z.scores + "</td>");
-                        $('#row' + i).append("<td>" + z.win + "</td>");
-                        $('#row' + i).append("<td>" + z.loss + "</td>");
-                        $('#row' + i).append("<td>" + z.tie + "</td>");
+                $('#row' +i).append("<td>" + key + "</td>");
+                $('#row' + i).append("<td>" + z.scores + "</td>");
+                $('#row' + i).append("<td>" + z.win + "</td>");
+                $('#row' + i).append("<td>" + z.loss + "</td>");
+                $('#row' + i).append("<td>" + z.tie + "</td>");
             });
         }
     });
@@ -109,6 +111,8 @@ $(function() {
             event.preventDefault();
             var form = event.target.form;
             loginPost(form);
+
+
         });
     }
 
@@ -118,21 +122,23 @@ $(function() {
                 password: form["password"].value })
             .done(function( ) {
                 console.log("Logged in!")
-                $("#login-form").hide();
-                loadUser();
+                // loadUser();
+                loginReload()
+                joinButton();
+
             })
             .fail(function() {
                 showOutput("You have to sign up first!");
             });
 
     }
-
-    function loadUser() {
-        $.getJSON("http://localhost:8080/api/games", function(data) {
-            console.log(data);
-           showOutput("Logged in as: " + data.player.playerName);
-        });
-    }
+ // load user and make  REJOIN button
+ //    function loadUser() {
+ //        $.getJSON("http://localhost:8080/api/games", function(data) {
+ //           showOutput("Logged in as: " + data.player.playerName);
+ //           console.log(data);
+ //        });
+ //    }
 
     login();
 
@@ -140,13 +146,24 @@ $(function() {
         $.getJSON("http://localhost:8080/api/games", function(data) {
             if(data.player != null) {
                 showOutput("Logged in as: " + data.player.playerName);
+                $("#login-form").hide();
             }
+            var games = data.games;
+            if(data.player != null) {
+                for (var i = 0; i < games.length; i++) {
+                    games[i].gameplayers.map(function (x) {
+                        if (x.player["playerId"] == data.player["playerId"]) {
+                            $("#dataAttr" + i).append("<button class='buttonsRejoin'" + " onclick=window.location.href='http://localhost:8080/web/game.html?gp=" + x.id + "'>Go to your game</button>")
+                        }
+                    });
+                }
+            }
+
 
         });
     }
 
     loginReload();
-
 
     function logout() {
         $("#logoutButton").click(function(event) {
@@ -156,13 +173,14 @@ $(function() {
                     console.log("Logged out")
                     showOutput("");
                     $("#login-form").show();
+                    $(".buttonsRejoin").hide();
+                    $(".buttonJoinGame").hide();
                 })
                 .fail();
         });
     }
 
     logout();
-    // $("#logoutButton").on('click', logout());
 
     function signUp() {
         $("#signupButton").click(function(event) {
@@ -182,17 +200,52 @@ $(function() {
         });
     }
 
-    function loadNewPlayer() {
-        $.getJSON("http://localhost:8080/rest/players", function(data) {
-            console.log(data);
+    signUp();
+
+    function createGame() {
+        $("#createGameButton").click(function(event) {
+            event.preventDefault();
+            $.post("/api/games")
+                .done(function (data) {
+                    console.log("GamePlayerId " + data.gamePlayerId);
+                    window.location.href='http://localhost:8080/web/game.html?gp=' + data.gamePlayerId;
+                })
+                .fail(
+                    console.log("You failed!")
+                );
         });
     }
 
-    signUp();
-    // $("#signupButton").on('click', signUp());
+    createGame();
 
-    // loadNewPlayer();
+    function joinButton() {
+        $.getJSON("http://localhost:8080/api/games", function(data) {
+            data.games.forEach(function(element, i) {
+                element.gameplayers.forEach(function(x) {
+                    if(element.gameplayers.length ==  1 && data.player.playerId != x.player.playerId) {
+                        $("#dataAttr" + i).append("<button class='buttonJoinGame' data-joinButton="+ element.id + ">" + "Join Game" + "</button>");
+                    }
+                });
 
+            });
+            joinGame();
+        });
+    }
 
+    joinButton();
+
+    function joinGame() {
+        $(".buttonJoinGame").click(function(event) {
+            event.preventDefault();
+            var id = event.target.attributes[1].value;
+            console.log(id);
+            $.post("/api/game/"+id+"/players")
+                .done(function(data) {
+                    console.log(data);
+                    window.location.href='http://localhost:8080/web/game.html?gp=' + data.gamePlayerId;
+                })
+                .fail();
+        });
+    }
 
 });
