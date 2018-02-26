@@ -195,7 +195,7 @@ $(function() {
                     // loadNewPlayer();
                 })
                 .fail(function( jqXHR, textStatus ) {
-                    showOutput("You are already signed up!");
+                    showOutput("Error!");
                 });
         });
     }
@@ -248,4 +248,10 @@ $(function() {
         });
     }
 
+    // $.ajax({
+    //     method: "POST",
+    //     contentType: "application/json; charset=utf-8",
+    //     url: "http://localhost:8080/api/games/players/15/ships",
+    //     data: JSON.stringify([{ "shipType": "destroyer", "shipLocation": ["A1", "B1", "C1"]},{ "shipType": "patrol boat", "shipLocation": ["H5", "H6"]}])
+    // })
 });

@@ -28,6 +28,11 @@ public class Ship {
         this.shipLocation = shipLocation;
         this.gamePlayer = gamePlayer;
     }
+
+    public Ship(String shipType, List<String> shipLocation) {
+        this.shipType = shipType;
+        this.shipLocation = shipLocation;
+    }
     public Long getId() {
         return id;
     }
@@ -50,6 +55,10 @@ public class Ship {
 
     public void setGamePlayer(GamePlayer gamePlayer) {
         this.gamePlayer = gamePlayer;
+    }
+
+    public void setShipType(String shipType) {
+        this.shipType = shipType;
     }
 }
 
