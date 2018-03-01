@@ -38,7 +38,7 @@
     display:inline-block;
     height:100%;
 }
-td {
+#gridShipTable div, #gridSalvoTable div{
     position:relative
 }
 
@@ -56,46 +56,57 @@ td {
     line-height: 2;
 }
 
-/*#row1 div:first-child {*/
-    /*border-top: 1px;*/
-    /*border-bottom: 0px;*/
-/*}*/
-/*#row2 div:first-child {*/
-    /*border-top: 02px;*/
-    /*border-bottom: 0px;*/
-/*}*/
-/*#row3 div:first-child {*/
-    /*border-top: 0px;*/
-    /*border-bottom: 0px;*/
-/*}*/
-/*#row4 div:first-child {*/
-    /*border-top: 0px;*/
-    /*border-bottom: 0px;*/
-/*}*/
-/*#row5 div:first-child {*/
-    /*border-top: 0px;*/
-    /*border-bottom: 0px;*/
-/*}*/
-/*#row6 div:first-child {*/
-    /*border-top: 0px;*/
-    /*border-bottom: 0px;*/
-/*}*/
-/*#row7 div:first-child {*/
-    /*border-top: 0px;*/
-    /*border-bottom: 0px;*/
-/*}*/
-/*#row8 div:first-child {*/
-    /*border-top: 0px;*/
-    /*border-bottom: 0px;*/
-/*}*/
-/*#row9 div:first-child {*/
-    /*border-top: 0px;*/
-    /*border-bottom: 0px;*/
-/*}*/
-/*#row10 div:first-child {*/
-    /*border-top: 0px;*/
-    /*border-bottom: 0px;*/
-/*}*/
+#destroyer3 div,  #patrol_boat2 div, #submarine3 div, #battleship4 div, #aircraft_carrier5 div{
+    height: 35px;
+    width: 35px;
+    background-color: darkred;
+    display: inline-block;
+}
+#drag1 {
+    height: 35px;
+    width: 35px;
+    background-color: green;
+    display: inline-block;
+}
+
+#destroyer3 {
+    height: 35px;
+    width: 109px;
+    background-color: darkred;
+    margin-bottom: 15px;
+}
+
+#patrol_boat2 {
+    height: 35px;
+    width: 73px;
+    background-color: darkred;
+    margin-bottom: 15px;
+}
+
+#battleship4 {
+    height: 35px;
+    width: 146px;
+    background-color: darkred;
+    margin-bottom: 15px;
+}
+
+#submarine3 {
+    height: 35px;
+    width: 109px;
+    background-color: darkred;
+    margin-bottom: 15px;
+}
+
+#aircraft_carrier5 {
+    height: 35px;
+    width: 183px;
+    background-color: darkred;
+    margin-bottom: 15px;
+}
+
+
+
+
 
 
 
