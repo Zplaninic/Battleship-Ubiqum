@@ -155,7 +155,7 @@ function drag(ev) {
 
     $("#" + ev.target.id).find("div").each(function(index) {
         var counter = Number(firstDiv[1]) + index;
-        $('#' + firstDiv[0] + counter).attr({"data-occupied":'no', 'data-neighbour':'yes'});
+        $('#' + firstDiv[0] + counter).attr({"data-occupied":'no'});
 
     });
 }
@@ -170,58 +170,29 @@ function drop(ev) {
     var firstDiv = ev.target["id"];
     console.log(firstDiv);
 
-    // $('#' + data).find("div").each(function() {
-        var datOcc = $('#' + firstDiv).data("occupied");
-        console.log(datOcc);
-        var datNei = $('#' + firstDiv).data("neighbour")
-        //
-        // var counter = Number(firstDiv[1]) + index;
-        // var string = $('#' + firstDiv[0] + counter).data("occupied")
-        // console.log(string);
+    var datOcc = $('#' + firstDiv).attr("data-occupied");
+    console.log(datOcc);
+    if (datOcc != undefined) {
         function checkCell() {
-            $('#' + data).find("div").each(function(index) {
+            var solution = true;
+            $('#' + data).find("div").each(function (index) {
                 var counter = Number(firstDiv[1]) + index;
-                var occupied = $('#' + firstDiv[0] + counter).data("occupied") {
-               }
+                var occupied = $('#' + firstDiv[0] + counter).attr("data-occupied");
+                console.log("nesto: "  + occupied);
+                if (occupied == 'yes') {
+                    solution = false
+                }
+            });
+            return solution;
+        }
+
+        if (checkCell()) {
+            ev.target.appendChild((document.getElementById(data)));
+            $('#' + data).find("div").each(function (index) {
+                var counter = Number(firstDiv[1]) + index;
+                $('#' + firstDiv[0] + counter).attr({"data-occupied": 'yes'});
             });
         }
-        checkCell()
-
-
-
-        // console.log(datOcc);
-        if (datOcc == 'no') {
-                ev.target.appendChild((document.getElementById(data)));
-                $('#' + data).find("div").each(function(index) {
-                    var counter = Number(firstDiv[1]) + index;
-                    $('#' + firstDiv[0] + counter).attr({"data-occupied":'yes', "data-neighbour":'no'});
-                });
-
-            // ev.target.appendChild((document.getElementById(data)));
-            // $('#' + data).find("div").each(function(index) {
-            //     var counter = Number(firstDiv[1]) + index;
-            //     $('#' + firstDiv[0] + counter).attr({"data-occupied":'yes', "data-neighbour":'no'});
-            // });
-
-        }
-
-    //
-    // });
-    //
-    // ev.target.appendChild((document.getElementById(data)));
-    //
-    // $('#' + data).find("div").each(function(index) {
-    //     var counter = Number(firstDiv[1]) + index;
-    //     $('#' + firstDiv[0] + counter).attr('data-occupied', 'yes');
-    // });
+    }
 }
-
-
-// function dragLeave(ev) {
-//     ev.preventDefault();
-//     var data = ev.dataTransfer.getData("text");
-//     console.log(data);
-//     ev.target;
-//     console.log(ev.target);
-// }
 
