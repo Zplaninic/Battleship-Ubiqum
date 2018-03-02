@@ -37,7 +37,7 @@ function columnCreate(rowId) {
                     $(rowId + rows).append("<div  class='grid' " + " >" + letters[rows] + "</div>");
                 }else {
                     $(rowId + rows).append("<div id="  + letters[rows] + i + " class=" + "grid " + "ondrop=" + "drop(event)" +" ondragover=" + "allowDrop(event)"
-                        + " data-occupied=" + "no" + " ></div>");
+                        + " data-occupied=" + "no" + " data-neighbour=" + "yes" + "></div>");
                 }
             }
         }
@@ -138,11 +138,9 @@ function createShips(data) {
         "battleship": 4,
         "aircraft_carrier": 5}
 
-    console.log(allships);
     for (var property in allships) {
         $("#shipsDrag").append("<div id=" + property + allships[property] + " draggable="  + "true" +" ondragstart=" + "drag(event)"
             + " ondrop=" + "drop(event)" + "ondragleave=" + "dragLeave(event)" + "></div>")
-        console.log(allships[property]);
         for(var i = 0; i<allships[property]; i++) {
             $("#" + property + allships[property]).append("<div class=" + property + i +"></div>")
         }
@@ -157,7 +155,8 @@ function drag(ev) {
 
     $("#" + ev.target.id).find("div").each(function(index) {
         var counter = Number(firstDiv[1]) + index;
-        $('#' + firstDiv[0] + counter).attr('data-occupied', 'no');
+        $('#' + firstDiv[0] + counter).attr({"data-occupied":'no', 'data-neighbour':'yes'});
+
     });
 }
 
@@ -169,18 +168,45 @@ function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
     var firstDiv = ev.target["id"];
+    console.log(firstDiv);
 
-    $('#' + data).find("div").each(function() {
-        var datAtr = $('#' + firstDiv).data("occupied");
-        console.log(datAtr);
-        if (datAtr == 'no') {
-            ev.target.appendChild((document.getElementById(data)));
+    // $('#' + data).find("div").each(function() {
+        var datOcc = $('#' + firstDiv).data("occupied");
+        console.log(datOcc);
+        var datNei = $('#' + firstDiv).data("neighbour")
+        //
+        // var counter = Number(firstDiv[1]) + index;
+        // var string = $('#' + firstDiv[0] + counter).data("occupied")
+        // console.log(string);
+        function checkCell() {
             $('#' + data).find("div").each(function(index) {
                 var counter = Number(firstDiv[1]) + index;
-                $('#' + firstDiv[0] + counter).attr('data-occupied', 'yes');
+                var occupied = $('#' + firstDiv[0] + counter).data("occupied") {
+               }
             });
         }
-    });
+        checkCell()
+
+
+
+        // console.log(datOcc);
+        if (datOcc == 'no') {
+                ev.target.appendChild((document.getElementById(data)));
+                $('#' + data).find("div").each(function(index) {
+                    var counter = Number(firstDiv[1]) + index;
+                    $('#' + firstDiv[0] + counter).attr({"data-occupied":'yes', "data-neighbour":'no'});
+                });
+
+            // ev.target.appendChild((document.getElementById(data)));
+            // $('#' + data).find("div").each(function(index) {
+            //     var counter = Number(firstDiv[1]) + index;
+            //     $('#' + firstDiv[0] + counter).attr({"data-occupied":'yes', "data-neighbour":'no'});
+            // });
+
+        }
+
+    //
+    // });
     //
     // ev.target.appendChild((document.getElementById(data)));
     //
